@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Medicine Reminder App for Elderly Patients - Healthcare Solution">
+  <title>Medicine Reminder - Healthcare App</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- Patient Alert Overlay -->
+  <div class="patient-alert" id="patientAlert">
+    <div class="alert-content">
+      <h1>⏰ TIME TO TAKE YOUR MEDICINE!</h1>
+      <div class="medicine-name" id="alertMedicineName"></div>
+      <div class="instructions" id="alertInstructions"></div>
+      <div class="voice-indicator" id="voiceIndicator" style="display:none;">🔊 Playing voice instructions...</div>
+      <div class="stock-info" id="alertStock"></div>
+      <button class="btn btn-success btn-large" id="btnTaken">
+        ✓ I TOOK MY MEDICINE
+      </button>
+    </div>
+    <audio id="voiceAudio" loop></audio>
+  </div>
+
+  <div class="container">
+    <div class="logo">
+      <h1>💊 Medicine Reminder</h1>
+      <p>Healthcare App for Elderly Patients</p>
+    </div>
+
+    <!-- Role Selection Screen -->
+    <div class="screen active" id="roleScreen">
+      <h2 class="screen-title">Welcome! Choose Your Role</h2>
+      <button class="btn btn-primary" id="btnCaregiver">
+        👨‍⚕️ I am Caregiver
+      </button>
+      <button class="btn btn-primary" id="btnPatient">
+        👴 I am Patient
+      </button>
+    </div>
+
+    <!-- Caregiver Login Screen -->
+    <div class="screen" id="caregiverLoginScreen">
+      <h2 class="screen-title">Caregiver Login</h2>
+      <div id="caregiverLoginAlert"></div>
+      <div class="input-group">
+        <label>Email</label>
+        <input type="email" id="caregiverLoginEmail" placeholder="your@email.com" autocomplete="email">
+      </div>
+      <div class="input-group">
+        <label>Password</label>
+        <input type="password" id="caregiverLoginPassword" placeholder="Enter password" autocomplete="current-password">
+      </div>
+      <button class="btn btn-primary" id="btnCaregiverLogin">Login</button>
+      <button class="btn btn-secondary" id="btnGoToSignup">Create Account</button>
+      <div class="back-link" id="backFromCaregiverLogin">← Back to Role Selection</div>
+    </div>
+
+    <!-- Caregiver Signup Screen -->
+    <div class="screen" id="caregiverSignupScreen">
+      <h2 class="screen-title">Caregiver Signup</h2>
+      <div id="caregiverSignupAlert"></div>
+      <div class="input-group">
+        <label>Email</label>
+        <input type="email" id="caregiverSignupEmail" placeholder="your@email.com" autocomplete="email">
+      </div>
+      <div class="input-group">
+        <label>Full Name</label>
+        <input type="text" id="caregiverSignupName" placeholder="Your full name" autocomplete="name">
+      </div>
+      <div class="input-group">
+        <label>Password</label>
+        <input type="password" id="caregiverSignupPassword" placeholder="Create password (min 6 characters)" autocomplete="new-password">
+      </div>
+      <div class="input-group">
+        <label>Confirm Password</label>
+        <input type="password" id="caregiverSignupPasswordConfirm" placeholder="Confirm password" autocomplete="new-password">
+      </div>
+      <button class="btn btn-primary" id="btnCaregiverSignup">Create Account</button>
+      <button class="btn btn-secondary" id="btnGoToLogin">Already have account? Login</button>
+      <div class="back-link" id="backFromSignup">← Back to Role Selection</div>
+    </div>
+
+    <!-- Patient Login Screen -->
+    <div class="screen" id="patientLoginScreen">
+      <h2 class="screen-title">Patient Login</h2>
+      <div id="patientLoginAlert"></div>
+      <div class="input-group">
+        <label>Email</label>
+        <input type="email" id="patientLoginEmail" placeholder="your@email.com" autocomplete="email">
+      </div>
+      <div class="input-group">
+        <label>Password</label>
+        <input type="password" id="patientLoginPassword" placeholder="Enter password" autocomplete="current-password">
+      </div>
+      <button class="btn btn-primary" id="btnPatientLogin">Login</button>
+      <div class="back-link" id="backFromPatientLogin">← Back to Role Selection</div>
+    </div>
+
+    <!-- Caregiver Dashboard -->
+    <div class="screen" id="caregiverDashboard">
+      <h2 class="screen-title">Caregiver Dashboard</h2>
+      <div id="caregiverDashboardAlert"></div>
+      <div class="user-info">
+        <p>👋 Welcome, <strong id="caregiverName"></strong></p>
+        <p class="user-email" id="caregiverEmail"></p>
+        <p class="plan-badge" id="planBadge">📦 Free Plan (3 medicines max)</p>
+      </div>
+      
+      <div class="dashboard-actions">
+        <button class="btn btn-primary" id="btnAddPatient">➕ Add New Patient</button>
+        <button class="btn btn-primary" id="btnAddMedicine">💊 Add Medicine</button>
+        <button class="btn btn-primary" id="btnViewPatients">👥 View Patients</button>
+        <button class="btn btn-primary" id="btnWeeklyReport">📊 Weekly Report</button>
+        <button class="btn btn-secondary" id="btnCaregiverLogout">Logout</button>
+      </div>
+    </div>
+
+    <!-- Create Patient Screen -->
+    <div class="screen" id="createPatientScreen">
+      <h2 class="screen-title">Add New Patient</h2>
+      <div id="createPatientAlert"></div>
+      <div class="input-group">
+        <label>Patient Email</label>
+        <input type="email" id="patientEmail" placeholder="patient@email.com">
+      </div>
+      <div class="input-group">
+        <label>Patient Full Name</label>
+        <input type="text" id="patientName" placeholder="Patient's full name">
+      </div>
+      <div class="input-group">
+        <label>Patient Password</label>
+        <input type="password" id="patientPassword" placeholder="Create password for patient">
+      </div>
+      <div class="input-group">
+        <label>Confirm Password</label>
+        <input type="password" id="patientPasswordConfirm" placeholder="Confirm password">
+      </div>
+      <button class="btn btn-primary" id="btnCreatePatient">Create Patient Account</button>
+      <button class="btn btn-secondary" id="backToDashboardFromPatient">← Back to Dashboard</button>
+    </div>
+
+    <!-- View Patients Screen -->
+    <div class="screen" id="viewPatientsScreen">
+      <h2 class="screen-title">My Patients</h2>
+      <div id="viewPatientsAlert"></div>
+      <div id="patientsList" class="medicine-list"></div>
+      <button class="btn btn-secondary" id="backToDashboardFromViewPatients">← Back to Dashboard</button>
+    </div>
+
+    <!-- Add Medicine Screen -->
+    <div class="screen" id="addMedicineScreen">
+      <h2 class="screen-title">Add Medicine</h2>
+      <div id="addMedicineAlert"></div>
+      
+      <div class="input-group">
+        <label>Select Patient</label>
+        <select id="medicinePatientSelect">
+          <option value="">-- Select Patient --</option>
+        </select>
+      </div>
+
+      <div class="input-group">
+        <label>Medicine Name</label>
+        <input type="text" id="medicineName" placeholder="e.g., Aspirin, Metformin">
+      </div>
+
+      <div class="input-group">
+        <label>Time (24-hour format)</label>
+        <input type="time" id="medicineTime">
+      </div>
+
+      <div class="input-group">
+        <label>Stock (Number of tablets)</label>
+        <input type="number" id="medicineStock" placeholder="e.g., 30" value="30" min="1">
+      </div>
+
+      <div class="input-group">
+        <label>Schedule Type</label>
+        <select id="scheduleType">
+          <option value="daily">Daily (Every day)</option>
+          <option value="specific-days">Specific Days (Select days of week)</option>
+          <option value="one-time">One-Time (Single date only)</option>
+          <option value="custom-dates">Custom Dates (Use calendar)</option>
+        </select>
+      </div>
+
+      <div class="input-group" id="specificDaysGroup" style="display: none;">
+        <label>Select Days</label>
+        <div class="days-selector">
+          <label class="day-checkbox">
+            <input type="checkbox" id="day0"> Sun
+          </label>
+          <label class="day-checkbox">
+            <input type="checkbox" id="day1"> Mon
+          </label>
+          <label class="day-checkbox">
+            <input type="checkbox" id="day2"> Tue
+          </label>
+          <label class="day-checkbox">
+            <input type="checkbox" id="day3"> Wed
+          </label>
+          <label class="day-checkbox">
+            <input type="checkbox" id="day4"> Thu
+          </label>
+          <label class="day-checkbox">
+            <input type="checkbox" id="day5"> Fri
+          </label>
+          <label class="day-checkbox">
+            <input type="checkbox" id="day6"> Sat
+          </label>
+        </div>
+      </div>
+
+      <div class="input-group" id="oneTimeDateGroup" style="display: none;">
+        <label>Select Date (One-Time Alert)</label>
+        <input type="date" id="oneTimeDate">
+      </div>
+
+      <div class="input-group" id="customDatesGroup" style="display: none;">
+        <label>Add Custom Dates (Calendar)</label>
+        <div class="custom-dates-input">
+          <input type="date" id="customDateInput">
+          <button type="button" class="btn btn-primary" style="width: auto; padding: 10px 20px;" onclick="Caregiver.addCustomDate()">Add Date</button>
+        </div>
+        <div id="customDatesList" class="custom-dates-list">
+          <p class="no-dates">No dates selected yet</p>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label>Instructions Type</label>
+        <select id="instructionsType">
+          <option value="text">Text Instructions</option>
+          <option value="voice">Voice Instructions</option>
+        </select>
+      </div>
+
+      <div class="input-group" id="textInstructionsGroup">
+        <label>Text Instructions</label>
+        <textarea id="textInstructions" rows="3" placeholder="e.g., Take with water after meal"></textarea>
+      </div>
+
+      <div class="input-group" id="voiceInstructionsGroup" style="display: none;">
+        <label>Voice Instructions</label>
+        <div class="voice-controls">
+          <button class="record-btn" id="recordBtn">🎤 Start Recording</button>
+          <button class="record-btn" id="playBtn" style="display: none;">▶️ Play Recording</button>
+          <button class="record-btn" id="deleteBtn" style="display: none;">🗑️ Delete</button>
+        </div>
+        <p id="recordingStatus" class="recording-status"></p>
+      </div>
+
+      <button class="btn btn-primary" id="btnSaveMedicine">Save Medicine</button>
+      <button class="btn btn-warning" id="btnCancelEdit">Cancel Edit</button>
+      <button class="btn btn-secondary" id="backToDashboardFromMedicine">← Back to Dashboard</button>
+    </div>
+
+    <!-- Weekly Report Screen -->
+    <div class="screen" id="weeklyReportScreen">
+      <h2 class="screen-title">📊 Weekly Report</h2>
+      <div id="weeklyReportContent">
+        <div class="loading">
+          <div class="spinner"></div>
+          <p>Loading report...</p>
+        </div>
+      </div>
+      <button class="btn btn-secondary" id="backToDashboardFromReport">← Back to Dashboard</button>
+    </div>
+
+    <!-- Patient Dashboard -->
+    <div class="screen" id="patientDashboard">
+      <h2 class="screen-title">Patient Dashboard</h2>
+      <div id="patientDashboardAlert"></div>
+      
+      <div class="user-info">
+        <p>👋 Hello, <strong id="patientName"></strong></p>
+        <p class="user-email" id="patientEmail"></p>
+      </div>
+
+      <div class="patient-info-card">
+        <h3>✅ Medicine Reminders Active</h3>
+        <p>You will receive alerts when it's time to take your medicine.</p>
+        <p class="info-note">Please keep this page open.</p>
+        <div class="time-display">
+          <p>Current Time: <strong id="currentTime">--:--:--</strong></p>
+          <p class="check-status">Checking for reminders every minute...</p>
+        </div>
+      </div>
+
+      <div class="medicine-list" id="patientMedicinesList"></div>
+
+      <button class="btn btn-secondary" id="btnPatientLogout">Logout</button>
+    </div>
+
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/config.js"></script>
+  <script src="js/database.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/caregiver.js"></script>
+  <script src="js/patient.js"></script>
+  <script src="js/app.js"></script>
+
+</body>
+</html>
